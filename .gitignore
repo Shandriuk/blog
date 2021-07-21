@@ -121,7 +121,7 @@ GitHub.sublime-settings
 !.vscode/settings.json
 !.vscode/tasks.json
 
-
+data/
 
 !.vscode/launch.json
 !.vscode/extensions.json
