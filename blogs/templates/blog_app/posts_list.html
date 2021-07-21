@@ -1,0 +1,29 @@
+{% extends 'base.html'  %}
+{% load services %}
+
+{% block title  %}
+Posts
+{% endblock %}
+
+
+
+{% block body %}
+    {% if post_list %}
+            {% for elem in post_list %}
+                {% subscriber elem.id user.id as subscribed %}
+
+
+                <div class="container col align-items-center text-dark ">
+                        <div class="card shadow-sm">
+                            <h2>Blog by {{ elem.title }}</h2>
+                            <p> {{ elem.text }} </p>
+                            <p> {{ elem.create_time }} </p>
+                            <p>{{ elem.get_name }}</p>
+                        </div>
+                </div>
+            {% endfor %}
+    {% else %}
+            <p> There is no blogs yet</p>
+        {% endif %}
+
+{% endblock %}

@@ -6,18 +6,24 @@ from django.dispatch import receiver
 
 
 class Blog(models.Model):
-    blog_author = models.OneToOneField(User, on_delete=models.CASCADE, related_name='+')
-    blog_subscribers = models.ManyToManyField(User)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="+")
+    blog_subscribers = models.ManyToManyField(User, blank=True)
     description = models.CharField(max_length=50, default=f"My blog")
-    
+
     @receiver(post_save, sender=User)
     def create_user_blog(sender, instance, created, **kwargs):
         if created:
-            Blog.objects.create(blog_author=instance)
+            Blog.objects.create(user=instance)
 
-    @receiver(post_save, sender=User)
-    def save_user_blog(sender, instance, **kwargs):
-        instance.blog_author.save()
+    #@receiver(post_save, sender=User)
+    #def save_user_blog(sender, instance, **kwargs):
+    #    instance.blog.save()
+
+    def get_name(self):
+
+        return self.user.get_full_name()
+
+
 
 
 class Post(models.Model):
@@ -25,4 +31,7 @@ class Post(models.Model):
     create_time = models.DateTimeField(auto_now_add=True)
     title = models.CharField(max_length=30)
     text = models.TextField()
-    viewed = models.ManyToManyField(User)
+    viewed = models.ManyToManyField(User, blank=True)
+
+    def get_name(self):
+        return self.blog.get_name()
