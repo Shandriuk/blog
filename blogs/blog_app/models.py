@@ -20,10 +20,15 @@ class Blog(models.Model):
     #    instance.blog.save()
 
     def get_name(self):
-
         return self.user.get_full_name()
 
+    @property
+    def subs_count(self):
+       return self.blog_subscribers.count()
 
+    @property
+    def posts_count(self):
+        return Post.objects.filter(blog=self).count()
 
 
 class Post(models.Model):

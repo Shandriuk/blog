@@ -2,28 +2,43 @@
 {% load services %}
 
 {% block title  %}
-Posts
+My Feed
 {% endblock %}
 
 
 
 {% block body %}
+{% if request.user.is_authenticated %}
     {% if post_list %}
             {% for elem in post_list %}
-                {% subscriber elem.id user.id as subscribed %}
-
 
                 <div class="container col align-items-center text-dark ">
                         <div class="card shadow-sm">
-                            <h2>Blog by {{ elem.title }}</h2>
+                            {% viewed elem.id user.id as read %}
+                            {% if not read %}
+                                <form action="{% url 'blog_app:read' elem.id %}" method="POST">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-success">Viewed</button>
+                                </form>
+                            {% else %}
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
+                                <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
+                                <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
+                                </svg>
+                            {% endif %}
+                            <h2 class="blog-post-title">{{ elem.title }}</h2>
+                            <p class="blog-post-title"> {{ elem.get_name }} {{ elem.create_time }} </p>
                             <p> {{ elem.text }} </p>
-                            <p> {{ elem.create_time }} </p>
-                            <p>{{ elem.get_name }}</p>
+
+
+
                         </div>
                 </div>
             {% endfor %}
     {% else %}
-            <p> There is no blogs yet</p>
+            <p> There is no posts yet</p>
         {% endif %}
-
+    {% else %}
+            <p> Please login </p>
+{% endif %}
 {% endblock %}

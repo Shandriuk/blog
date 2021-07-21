@@ -1,0 +1,24 @@
+{% extends 'base.html'  %}
+{% load services %}
+
+{% block title  %}
+My posts
+{% endblock %}
+
+
+
+{% block body %}
+{% if request.user.is_authenticated %}
+    {% if form %}
+        <form method="post" >
+            {% csrf_token %}
+            Title: {{ form.title }} <br>
+            <p>Post text: </p>{{ form.text }}   <br>
+        <button type="submit" class="w-50 btn btn-primary btn-lg"> Publish </button>
+        </form>
+    {% endif %}
+
+{% else %}
+    <p> Please login </p>
+{% endif %}
+{% endblock %}

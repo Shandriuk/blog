@@ -11,3 +11,10 @@ def is_subscriber(blog_id, user_id) -> bool:
 
         return True
     return False
+
+def is_read(blog_id, user_id) -> bool:
+    blog = Post.objects.get(pk=blog_id)
+
+    if User.objects.get(pk=user_id) in blog.viewed.all():
+        return True
+    return False
