@@ -45,7 +45,7 @@ blog with posts on django
  # Launching instruction
  For easy lauching need **docker-compose**
  
- In blogs/blogs/* edit **settings.py**
+ In *blogs/blogs/* edit **settings.py**
  
     PROJECT_DOMAIN = 'http://YOUR_IP_OR_DOMAIN:8000'
  
