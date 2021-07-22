@@ -1,0 +1,41 @@
+{% extends 'base.html'  %}
+{% load services %}
+
+{% block title  %}
+Post
+{% endblock %}
+
+
+
+{% block body %}
+{% if request.user.is_authenticated %}
+    {% if object %}
+          <article class="blog-post">
+
+               {% viewed object.id user.id as read %}
+               {% author object.id user.id as is_author %}
+               {% if not is_author %}
+               {% if not read %}
+                    <form action="{% url 'blog_app:read' object.id %}" method="POST">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-success">Viewed</button>
+                    </form>
+               {% else %}
+                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
+                   <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
+                   <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
+                   </svg>
+               {% endif %}
+               {% endif %}
+               <h2 class="blog-post-title">{{ object.title }}</h2>
+               <p class="blog-post-title"> {{ object.get_name }} {{ object.create_time }} </p>
+               <p> {{ object.text }} </p>
+          </article>
+
+    {% else %}
+            <p> There is no post</p>
+        {% endif %}
+    {% else %}
+            <p> Please login </p>
+{% endif %}
+{% endblock %}

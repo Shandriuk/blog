@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
-
+from os import path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-2oicpqol7@8(!-05ks(td0@q@!#qk@)lhhj-#*3a=%5ngxho1g
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -55,7 +55,7 @@ ROOT_URLCONF = 'blogs.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['templates'],
+        'DIRS': [path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -67,7 +67,7 @@ TEMPLATES = [
         },
     },
 ]
-
+DEFAULT_TEMPLATES_DIR = path.join(BASE_DIR, 'templates')
 WSGI_APPLICATION = 'blogs.wsgi.application'
 
 
@@ -80,8 +80,8 @@ DATABASES = {
         'NAME': 'django_db',
         'USER': 'postgres',
         'PASSWORD': 'postgres',
-        'HOST': 'localhost',
-        'PORT': '5431',
+        'HOST': 'database',
+        #'PORT': '5431',
 
     }
 }
@@ -128,3 +128,12 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+PROJECT_DOMAIN = 'http://YOUR_IP_OR_DOMAIN:8000'
+
+EMAIL_BACKEND='django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST='smtp.gmail.com'
+EMAIL_PORT=587
+EMAIL_HOST_USER='YOUR_EMAIL_ON_GMAIL'
+EMAIL_HOST_PASSWORD='YOUR_PASSWORD'
+EMAIL_USE_TLS=True

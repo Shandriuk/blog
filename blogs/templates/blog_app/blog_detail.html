@@ -2,17 +2,22 @@
 {% load services %}
 
 {% block title  %}
-My Feed
+Blog of {{ object.get_name }}
 {% endblock %}
 
 
 
 {% block body %}
-{% if request.user.is_authenticated %}
+    <div class="text-center">
+        <h2> Blog of {{ object.get_name }} </h2>
+        <p>{{ object.description }} </p>
+        <hr>
+    </div>
     {% if post_list %}
         {% for elem in post_list %}
 
             <article class="blog-post">
+                {% if request.user.is_authenticated %}
                 {% viewed elem.id user.id as read %}
                 {% if not read %}
                     <form action="{% url 'blog_app:read' elem.id %}" method="POST">
@@ -25,6 +30,7 @@ My Feed
                     <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
                     </svg>
                 {% endif %}
+                {% endif %}
                 <h2 class="blog-post-title">{{ elem.title }}</h2>
                 <p class="blog-post-title"> {{ elem.get_name }} {{ elem.create_time }} </p>
                 <p> {{ elem.text }} </p>
@@ -32,30 +38,9 @@ My Feed
             </article>
 
             {% endfor %}
-        <div class="pagination">
-            <span class="step-links">
-                {% if page_obj.has_previous %}
-                    <a href="?page=1">&laquo; first</a>
-                    <a href="?page={{ page_obj.previous_page_number }}">previous</a>
-                {% endif %}
-
-                <span class="current">
-                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
-                </span>
-
-                {% if page_obj.has_next %}
-                    <a href="?page={{ page_obj.next_page_number }}">next</a>
-                    <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
-                {% endif %}
-            </span>
-        </div>
-
-
 
     {% else %}
             <p> There is no posts yet</p>
         {% endif %}
-    {% else %}
-            <p> Please login </p>
-{% endif %}
+
 {% endblock %}

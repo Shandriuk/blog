@@ -18,9 +18,11 @@
       </a>
 
       <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-        <li><a href="{% url 'blog_app:blogs' %}" class="nav-link px-2 link-secondary">Blogs</a></li>
-          <li><a href="{% url 'blog_app:myfeed' %}" class="nav-link px-2 link-secondary">My feed</a></li>
-        <li><a href="{% url 'blog_app:myposts' %}" class="nav-link px-2 link-dark">My posts</a></li>
+        <li><a href="{% url 'blog_app:blogs' %}" class="nav-link px-2 rounded link-dark">Blogs</a></li>
+        {% if request.user.is_authenticated %}
+            <li><a href="{% url 'blog_app:myfeed' %}" class="nav-link px-2 rounded bg-info link-dark">My feed</a></li>
+            <li><a href="{% url 'blog_app:myposts' %}" class="nav-link px-2 rounded  link-dark">My posts</a></li>
+        {% endif %}
       </ul>
 
       <div class="col-md-3 text-end">

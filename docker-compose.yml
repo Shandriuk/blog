@@ -13,5 +13,35 @@ services:
       POSTGRES_DB: django_db
     ports:
       - 5431:5432
-
-
+      
+  web_service_env:
+    build: .
+    environment:
+      MYENV: env
+    volumes:
+      - .:/blog:rw
+  
+  migrate:
+    extends:
+      service: web_service_env
+    depends_on:
+      - web_service_env
+      - database
+    command: python blogs/manage.py migrate
+    
+  createsuperuser:
+    extends:
+      service: web_service_env
+    depends_on:
+      - migrate
+    command: python blogs/manage.py createsuperuser
+    
+  run_django_server:
+    extends:
+      service: web_service_env
+    depends_on:
+      - web_service_env
+      - database
+    command: python blogs/manage.py runserver 0.0.0.0:8000
+    ports:
+      - "8000:8000"

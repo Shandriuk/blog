@@ -9,33 +9,56 @@
 
 {% block body %}
     {% if blog_list %}
-            {% for elem in blog_list %}
+        {% for elem in blog_list %}
 
+            <div class="container col align-items-center text-dark ">
+                <div class="card shadow-sm">
+                    <h2>Blog by <a href="{% url 'blog_app:blog' elem.id %}" class="link-dark">{{ elem.get_name }}</a></h2>
+                    <p> {{ elem.description }} </p>
+                    {% if request.user.is_authenticated %}
+                    {% subscriber elem.id user.id as subscribed %}
+                    {% if subscribed %}
+                        <form action="{% url 'blog_app:unsubscribe' elem.id %}" method="POST">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger">Unsubscribe</button>
+                        </form>
+                        {% else %}
+                        <form action="{% url 'blog_app:subscribe' elem.id  %}" method="POST">
+                            {% csrf_token %}
+                        <button type="submit" class="btn btn-success me-2">Subscribe</button>
+                        </form>
+                    {% endif %}
+                    {% endif %}
+                    <p> Posts count: {{ elem.posts_count }}   Blog subscribers: {{ elem.subs_count }}</p>
 
-
-                <div class="container col align-items-center text-dark ">
-                        <div class="card shadow-sm">
-                            <h2>Blog by {{ elem.get_name }}</h2>
-                            <p> {{ elem.description }} </p>
-                            {% if request.user.is_authenticated %}
-                            {% subscriber elem.id user.id as subscribed %}
-                            {% if subscribed %}
-                                <form action="{% url 'blog_app:unsubscribe' elem.id %}" method="POST">
-                                    {% csrf_token %}
-                                    <button type="submit" class="btn btn-danger">Unsubscribe</button>
-                                </form>
-                                {% else %}
-                                <form action="{% url 'blog_app:subscribe' elem.id  %}" method="POST">
-                                    {% csrf_token %}
-                                <button type="submit" class="btn btn-success me-2">Subscribe</button>
-                                </form>
-                            {% endif %}
-                            {% endif %}
-                            <p> Posts count: {{ elem.posts_count }}   Blog subscribers: {{ elem.subs_count }}</p>
-
-                        </div>
                 </div>
+            </div>
             {% endfor %}
+
+    <div class="pagination">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+        </span>
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">next</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
+</div>
+
+
+
+
+
+
+
     {% else %}
             <p> There is no blogs yet</p>
         {% endif %}

@@ -15,10 +15,7 @@ class Blog(models.Model):
         if created:
             Blog.objects.create(user=instance)
 
-    #@receiver(post_save, sender=User)
-    #def save_user_blog(sender, instance, **kwargs):
-    #    instance.blog.save()
-
+    @property
     def get_name(self):
         return self.user.get_full_name()
 
@@ -39,4 +36,8 @@ class Post(models.Model):
     viewed = models.ManyToManyField(User, blank=True)
 
     def get_name(self):
-        return self.blog.get_name()
+        return self.blog.get_name
+
+    #@receiver(post_save, sender=self)
+    #def email_sender(sender, instance, **kwargs):
+    #    pass
