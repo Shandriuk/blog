@@ -47,8 +47,15 @@ blog with posts on django
  
  In *blogs/blogs/* edit **settings.py**
  
+ Your ip or domain
     PROJECT_DOMAIN = 'http://YOUR_IP_OR_DOMAIN:8000'
- 
+    
+ Edit email host. Gmail is default host  
+  
+    EMAIL_HOST='smtp.gmail.com' 
+
+ Edit your email host user and password
+
     EMAIL_HOST_USER='YOUR_EMAIL'
     EMAIL_HOST_PASSWORD='YOUR_PASSWORD'
  
@@ -60,9 +67,12 @@ blog with posts on django
  Project don't have registration functional. Need to create superuser(admin) to create users.
  
     docker-compose run createsuperuser
+    
+ Run django server
+ 
     docker-compose up
       
   Project will be available on http://YOUR_IP_OR_DOMAIN:8000
-      
+  To add users go to /admin/ (IT HAS NO STATIC, need to use webserver (eg. Nginx, Apache etc))
       
       
