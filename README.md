@@ -72,7 +72,8 @@ blog with posts on django
  
     docker-compose up
       
-  Project will be available on http://YOUR_IP_OR_DOMAIN:8000
-  To add users go to /admin/ (IT HAS NO STATIC, need to use webserver (eg. Nginx, Apache etc))
+ Project will be available on http://YOUR_IP_OR_DOMAIN:8000
+ 
+ To add users go to /admin/ (IT HAS NO STATIC, need to use webserver (eg. Nginx, Apache etc))
       
       
